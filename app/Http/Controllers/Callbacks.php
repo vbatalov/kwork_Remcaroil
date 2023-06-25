@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Answer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 use Throwable;
@@ -70,7 +71,11 @@ class Callbacks extends Controller
         $cookie->setCookie("stage2");
 
         $text = $this->textList->stage2();
-        return $this->bot->editMessageText("$this->cid", "$this->messageId", $text, "HTML", "", null);
+        try {
+//            $this->bot->deleteMessage("$this->cid", "$this->messageId");
+            return $this->bot->sendMessage("$this->cid", "$text", "HTML");
+        } catch (Exception $e) {
+        }
     }
 
     // Какой обьем закупки в шт

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use TelegramBot\Api\InvalidJsonException;
 use TelegramBot\Api\Types\ReplyKeyboardRemove;
 
@@ -43,10 +44,12 @@ class Commands extends Controller
             $cookie = new Cookie($cid);
             $cookie->setCookie("null");
 
-
             $textStart = $this->textList->start();
-            $this->bot->sendMessage("$cid", $textStart["text"], "HTML", "", "", $textStart["keyboard"]);
-
+//            $this->bot->sendMessage("$cid", $textStart["text"], "HTML", "", "", $textStart["keyboard"]);
+            $photoURL = Storage::disk("public")->url("bot_start.png");
+            $photoURL = env("BOT_URL");
+            $photoURL = $photoURL . "storage/bot_start.png";
+            $this->bot->sendPhoto("$cid", $photoURL, $textStart["text"], "", $textStart["keyboard"]);
         });
 
         try {

@@ -78,7 +78,7 @@ class Messages extends Controller
                         $cookie->setCookie("end");
                         $bitrix = new RESTApi();
 
-                        $this->bot->sendMessage("$this->cid", "Отлично мы свяжемся с вами в течении 24 часов и предложим самые лучшие варианты.");
+                        $this->bot->sendMessage("$this->cid", "Отлично! Я свяжусь с тобой в течении 6 часов и предложу самые лучшие варианты. \n\nНе забудь подписаться на мой инст там много интересного про закупку в Китае \nhttps://instagram.com/anton_krasilnlkov");
                     }
                 }
 
