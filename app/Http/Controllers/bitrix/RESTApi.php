@@ -14,9 +14,9 @@ class RESTApi extends Controller
     public function store($cid) {
 
     }
-    public function checkCIDinContactList($cid = null)
+
+    public function checkCIDinContactList($cid)
     {
-        $cid = 112865662;
         $contact_list = CRest::call(
             'crm.contact.list',
             ['FILTER' => ['UF_CRM_1687440612131' => "$cid",], 'SELECT' => ['0' => 'ID',],]
@@ -28,12 +28,9 @@ class RESTApi extends Controller
         if (!isset($contact_list["result"]["0"]["ID"])) {
             return $this->contactAdd($cid);
         } else {
-            dd("yes", $contact_list);
-
+            // Если такой пользователь уже есть в Битрикс
         }
-//        if ($contact_id == null) {
-//            $contact_id = $this->contactAdd($cid);
-//        }
+
     }
 
     /**
@@ -47,13 +44,23 @@ class RESTApi extends Controller
     public function contactAdd($cid)
     {
         $user = new User();
-        $getUser = $user->getUser($cid); // Коллекция информации о пользователе
+        // Коллекция информации о пользователе
+        // Далее отправляем вебхук для создания контакта в Битрикс
+        // Полученный ID заносим в БД
+        if ($getUser = $user->getUser($cid)) {
+            $contact_add = CRest::call(
+                'crm.contact.add',
+                ['FIELDS' => ['NAME' => $getUser->get("first_name"), 'LAST_NAME' => $getUser->get("last_name"), 'SOURCE_ID' => '1', 'ASSIGNED_BY_ID' => '1', 'UF_CRM_1687440612131' => $getUser->get("cid"), 'EMAIL' => ['0' => ['VALUE' => 'mail@example.com', 'VALUE_TYPE' => 'WORK',],], 'PHONE' => ['0' => ['VALUE' => $getUser->get("phone"), 'VALUE_TYPE' => 'WORK',],],],]
+            );
 
-//        $contact_add = CRest::call(
-//            'crm.contact.add',
-//            ['FIELDS' => ['NAME' => 'Иван', 'LAST_NAME' => 'Петров', 'SOURCE_ID' => '1', 'ASSIGNED_BY_ID' => '1', 'UF_CRM_1687440612131' => '1234', 'EMAIL' => ['0' => ['VALUE' => 'mail@example.com', 'VALUE_TYPE' => 'WORK',],], 'PHONE' => ['0' => ['VALUE' => '79998889988', 'VALUE_TYPE' => 'WORK',],],],]
-//        );
+            // Получение ID для нового контакта и обновление в БД для пользователя
+            $bitrix_id = $contact_add['result'];
+            return $user->updateBitrixIdForUser($cid, $bitrix_id);
 
+            dd($contact_add);
+        }
+
+        dd("user not exist in db");
 //        return $contact_add["result"];
     }
 }

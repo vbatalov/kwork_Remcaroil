@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string("cid");
+            $table->string("bitrix_id")->nullable();
             $table->string("username")->nullable();
             $table->string("first_name")->nullable();
             $table->string("last_name")->nullable();

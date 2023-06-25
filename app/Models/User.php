@@ -30,6 +30,9 @@ class User extends Model
 
     public function getUser($cid)
     {
+        if (!User::where("cid", $cid)->exists()) {
+            return false;
+        }
         $collect = collect();
 
         $user = User::where("cid", $cid)->first();
@@ -38,7 +41,7 @@ class User extends Model
         $collect->put("cid", $user->cid);
         $collect->put("phone", $user->phone);
 
-        dd($collect);
+
         return $collect;
     }
 
@@ -56,5 +59,12 @@ class User extends Model
 
             $answersText .= ("$type: $answer->data \n");
         }
+    }
+
+    // Обновление Битрикс ID (контакта) для пользователя Телеграм
+    public function updateBitrixIdForUser($cid, $bitrix_id) {
+        $user = User::where("cid", $cid)->first();
+        $user->bitrix_id = $bitrix_id;
+        return $user->save();
     }
 }
