@@ -7,19 +7,22 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-####При необходимости выполните 
+При необходимости выполните 
+
 `git clone https://github.com/vbatalov/kwork_Remcaroil`
-####О проекте
+
+О проекте
+
 Разработка чат бота для сбора заявок и отправка в Битрикс
-##Инструкция по настройке
-###Перед началом
+
+Инструкция по настройке
+
 Настройте MySQL подключения и токен бота в .env файлe
 
 `BOT_API = "token" `
 
 `BOT_URL = "url"` 
 
-###Запуск
 1. Сгенерируйте ключ
 
 `php artisan key:generate`
