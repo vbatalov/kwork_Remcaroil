@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\bitrix;
 
 use App\Http\Controllers\Controller;
+use App\Models\Answer;
 use App\Models\User;
 use CRest;
 use Illuminate\Http\Request;
@@ -11,9 +12,11 @@ require_once(__DIR__ . '/crest.php');
 
 class RESTApi extends Controller
 {
-    public function store($cid) {
+    public function store($cid)
+    {
 
     }
+
 
     public function checkCIDinContactList($cid)
     {
@@ -44,6 +47,7 @@ class RESTApi extends Controller
     public function contactAdd($cid)
     {
         $user = new User();
+
         // Коллекция информации о пользователе
         // Далее отправляем вебхук для создания контакта в Битрикс
         // Полученный ID заносим в БД
@@ -56,11 +60,28 @@ class RESTApi extends Controller
             // Получение ID для нового контакта и обновление в БД для пользователя
             $bitrix_id = $contact_add['result'];
             return $user->updateBitrixIdForUser($cid, $bitrix_id);
-
-            dd($contact_add);
         }
+    }
 
-        dd("user not exist in db");
-//        return $contact_add["result"];
+    /** Создание лида в Битрикс */
+    // CONTACT_ID - созданный или найденный контакт
+    // UF_CRM_1687444753246 - количество товара
+    // UF_CRM_1687444776702 - ссылка на товар
+    // Поля множественные, туда можно пихать массив данных через указание ключа массива
+    public function storeLead($cid)
+    {
+        $user = new User();
+        $answer = new Answer();
+
+        return CRest::call(
+            'crm.deal.add',
+            ['FIELDS' =>
+                [
+                    'CONTACT_ID' => $user->getBitrixId($cid),
+                    'UF_CRM_1687444753246' => $answer->getValue($cid),
+                    'UF_CRM_1687444776702' => $answer->getImage($cid),
+                    ],
+                ]
+        );
     }
 }

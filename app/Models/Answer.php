@@ -19,7 +19,18 @@ class Answer extends Model
         return true;
     }
 
-    public function storeImage($cid, $url) : bool
+    public function getImage($cid)
+    {
+        $items = Answer::where("cid", $cid)->where("type", "image")->get("data")->all();
+
+        $array = [];
+        foreach ($items as $key => $item) {
+            $array [$key] = $item->data;
+        }
+        return $array;
+    }
+
+    public function storeImage($cid, $url): bool
     {
         $answer = new Answer();
         $answer->cid = $cid;
@@ -28,6 +39,17 @@ class Answer extends Model
         $answer->save();
 
         return true;
+    }
+
+    public function getValue($cid)
+    {
+        $items = Answer::where("cid", $cid)->where("type", "value")->get("data")->all();
+
+        $array = [];
+        foreach ($items as $key => $item) {
+            $array [$key] = $item->data;
+        }
+        return $array;
     }
 
     public function storeValue($cid, $value): bool

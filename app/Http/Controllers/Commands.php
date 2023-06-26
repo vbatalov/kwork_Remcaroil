@@ -45,10 +45,9 @@ class Commands extends Controller
             $cookie->setCookie("null");
 
             $textStart = $this->textList->start();
-//            $this->bot->sendMessage("$cid", $textStart["text"], "HTML", "", "", $textStart["keyboard"]);
-            $photoURL = Storage::disk("public")->url("bot_start.png");
             $photoURL = env("BOT_URL");
             $photoURL = $photoURL . "storage/bot_start.png";
+
             $this->bot->sendPhoto("$cid", $photoURL, $textStart["text"], "", $textStart["keyboard"]);
         });
 

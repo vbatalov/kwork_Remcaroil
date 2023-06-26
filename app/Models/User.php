@@ -59,6 +59,8 @@ class User extends Model
 
             $answersText .= ("$type: $answer->data \n");
         }
+
+        return $answersText;
     }
 
     // Обновление Битрикс ID (контакта) для пользователя Телеграм
@@ -66,5 +68,11 @@ class User extends Model
         $user = User::where("cid", $cid)->first();
         $user->bitrix_id = $bitrix_id;
         return $user->save();
+    }
+
+    /** Возвращает ID пользователя в Битрикс из локальной БД */
+    public function getBitrixId($cid) {
+        $user = User::where("cid", $cid)->first();
+        return $user->bitrix_id;
     }
 }
