@@ -57,7 +57,18 @@ class RESTApi extends Controller
         if ($getUser = $user->getUser($cid)) {
             $contact_add = CRest::call(
                 'crm.contact.add',
-                ['FIELDS' => ['NAME' => $getUser->get("first_name"), 'LAST_NAME' => $getUser->get("last_name"), 'SOURCE_ID' => '1', 'ASSIGNED_BY_ID' => '1', 'UF_CRM_1687440612131' => $getUser->get("cid"), 'EMAIL' => ['0' => ['VALUE' => 'mail@example.com', 'VALUE_TYPE' => 'WORK',],], 'PHONE' => ['0' => ['VALUE' => $getUser->get("phone"), 'VALUE_TYPE' => 'WORK',],],],]
+                ['FIELDS' =>
+                    [
+                        'NAME' => $getUser->get("first_name"),
+                        'LAST_NAME' => $getUser->get("last_name"),
+                        'SOURCE_ID' => '1', 'ASSIGNED_BY_ID' => '1',
+                        'UF_CRM_1687440612131' => $getUser->get("cid"),
+                        'EMAIL' => ['0' => ['VALUE' => 'mail@example.com', 'VALUE_TYPE' => 'WORK',],],
+                        'PHONE' => ['0' => [
+                            'VALUE' => $getUser->get("phone"), 'VALUE_TYPE' => 'WORK',],
+                            ],
+                        ],
+                    ]
             );
 
             // Получение ID для нового контакта и обновление в БД для пользователя
@@ -75,6 +86,7 @@ class RESTApi extends Controller
     {
         $user = new User();
         $answer = new Answer();
+        dd($answer->getAnswers($cid));
 
         $result = CRest::call(
             'crm.deal.add',
@@ -82,7 +94,7 @@ class RESTApi extends Controller
                 [
                     'CONTACT_ID' => $user->getBitrixId($cid),
                     'UF_CRM_1687444753246' => $answer->getValue($cid), // UF_CRM_1687444753246 - количество товара
-                    'UF_CRM_1687444776702' => $answer->getImage($cid), // UF_CRM_1687444776702 - ссылка на товар
+                    'UF_CRM_1687444776702' => $answer->getAnswers($cid), // UF_CRM_1687444776702 - ссылка на товар
                 ],
             ]
         );

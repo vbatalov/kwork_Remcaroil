@@ -19,9 +19,9 @@ class Answer extends Model
         return true;
     }
 
-    public function getImage($cid)
+    public function getAnswers($cid)
     {
-        $items = Answer::where("cid", $cid)->where("type", "image")->get("data")->all();
+        $items = Answer::where("cid", $cid)->where("type", "image")->where("type", "text")->get("data")->all();
 
         $array = [];
         foreach ($items as $key => $item) {
