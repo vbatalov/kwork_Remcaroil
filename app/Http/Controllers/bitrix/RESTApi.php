@@ -32,6 +32,9 @@ class RESTApi extends Controller
             return $this->contactAdd($cid);
         } else {
             // Если такой пользователь уже есть в Битрикс
+            $bitrix_id = $contact_list["result"]["0"]["ID"];
+            $user = new User();
+            return $user->updateBitrixIdForUser("$cid", "$bitrix_id");
         }
 
     }
@@ -73,15 +76,21 @@ class RESTApi extends Controller
         $user = new User();
         $answer = new Answer();
 
-        return CRest::call(
+        $result = CRest::call(
             'crm.deal.add',
             ['FIELDS' =>
                 [
                     'CONTACT_ID' => $user->getBitrixId($cid),
-                    'UF_CRM_1687444753246' => $answer->getValue($cid),
-                    'UF_CRM_1687444776702' => $answer->getImage($cid),
-                    ],
-                ]
+                    'UF_CRM_1687444753246' => $answer->getValue($cid), // UF_CRM_1687444753246 - количество товара
+                    'UF_CRM_1687444776702' => $answer->getImage($cid), // UF_CRM_1687444776702 - ссылка на товар
+                ],
+            ]
         );
+
+        /** Удаление всех ответов пользователя */
+        if ($result) {
+            Answer::where('cid', "$cid")->delete();
+        }
+        return $result;
     }
 }

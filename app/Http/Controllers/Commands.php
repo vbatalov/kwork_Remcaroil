@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\bitrix\RESTApi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +32,9 @@ class Commands extends Controller
             $lastname = $message->getChat()->getLastname() ?? null;
             $text = $message->getText() ?? null;
 
+            /** Проверка пользователя в БД Битрикс */
+            $RESTApi = new RESTApi();
+            $RESTApi->checkCIDinContactList($cid);
             /** @var $user */
             $user = new User();
             /** Проверка пользователя на наличие в БД
