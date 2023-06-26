@@ -65,7 +65,7 @@ class User extends Model
 
     // Обновление Битрикс ID (контакта) для пользователя Телеграм
     public function updateBitrixIdForUser($cid, $bitrix_id) {
-        $user = User::where("cid", $cid)->first();
+        $user = User::where("cid", $cid)->get()->first();
         $user->bitrix_id = $bitrix_id;
         return $user->save();
     }

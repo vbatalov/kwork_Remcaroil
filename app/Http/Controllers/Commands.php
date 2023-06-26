@@ -32,9 +32,6 @@ class Commands extends Controller
             $lastname = $message->getChat()->getLastname() ?? null;
             $text = $message->getText() ?? null;
 
-            /** Проверка пользователя в БД Битрикс */
-            $RESTApi = new RESTApi();
-            $RESTApi->checkCIDinContactList($cid);
             /** @var $user */
             $user = new User();
             /** Проверка пользователя на наличие в БД
@@ -43,6 +40,10 @@ class Commands extends Controller
             if (!$user->CheckUserExistInDB($cid)) {
                 $user->store("$cid","$username", "$firstname", "$lastname");
             }
+
+            /** Проверка пользователя в БД Битрикс */
+            $RESTApi = new RESTApi();
+            $RESTApi->checkCIDinContactList($cid);
 
             // Нулевые куки на случай повторого запуска бота
             $cookie = new Cookie($cid);

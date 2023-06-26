@@ -21,7 +21,7 @@ class Answer extends Model
 
     public function getAnswers($cid)
     {
-        $items = Answer::where("cid", $cid)->where("type", "image")->where("type", "text")->get("data")->all();
+        $items = Answer::where("cid", $cid)->where("type", "!=", "value")->get("data")->all();
 
         $array = [];
         foreach ($items as $key => $item) {

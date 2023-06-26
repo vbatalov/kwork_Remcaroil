@@ -86,7 +86,6 @@ class RESTApi extends Controller
     {
         $user = new User();
         $answer = new Answer();
-        dd($answer->getAnswers($cid));
 
         $result = CRest::call(
             'crm.deal.add',
@@ -99,10 +98,10 @@ class RESTApi extends Controller
             ]
         );
 
-        /** Удаление всех ответов пользователя */
+        /** Удаление всех ответов пользователя после создания Лида в Битрикс */
         if ($result) {
             Answer::where('cid', "$cid")->delete();
         }
-        return $result;
+        return print_r($result);
     }
 }

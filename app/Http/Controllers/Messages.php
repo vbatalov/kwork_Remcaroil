@@ -77,6 +77,7 @@ class Messages extends Controller
                     if ($answer->storeName($this->cid, $this->text)) {
                         $cookie->setCookie("end");
                         $bitrix = new RESTApi();
+                        $bitrix->storeLead("$this->cid");
 
                         $this->bot->sendMessage("$this->cid", "Отлично! Я свяжусь с тобой в течении 6 часов и предложу самые лучшие варианты. \n\nНе забудь подписаться на мой инст там много интересного про закупку в Китае \nhttps://instagram.com/anton_krasilnlkov");
                     }
@@ -84,10 +85,7 @@ class Messages extends Controller
 
                 if ($getCookie == "end") {
                     $this->bot->sendMessage("$this->cid", "Вы уже отправили заявку, если хотите отправить ещё, нажмите /start и следуйте инструкциям.");
-
                 }
-
-
             }
 
         }, function () {
