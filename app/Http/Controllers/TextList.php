@@ -13,7 +13,7 @@ class TextList
         $keyboard = new InlineKeyboardMarkup (
             [
                 [
-                    ['url' => 'https://t.me/kwork_kedrach_bot', 'text' => 'Подписаться'],
+                    ['url' => env("BOT_TG_CHANNEL_URL"), 'text' => 'Подписаться'],
                 ],
                 [
                     ['callback_data' => 'start', 'text' => 'Уже подписан'],
