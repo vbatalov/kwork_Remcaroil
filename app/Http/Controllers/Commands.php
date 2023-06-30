@@ -59,7 +59,7 @@ class Commands extends Controller
         try {
             if (isset($this->client)) return $this->client->run();
         } catch (InvalidJsonException $e) {
-            return print_r($e->getMessage());
+//            return print_r($e->getMessage());
         }
     }
 

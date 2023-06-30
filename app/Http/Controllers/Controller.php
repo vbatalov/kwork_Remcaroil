@@ -66,8 +66,8 @@ class Controller extends BaseController
             $messages->messagesList();
 
         } catch (Throwable $e) {
-            print_r($e->getMessage());
-            $this->bot->sendMessage("112865662", $e->getMessage());
+//            print_r($e->getMessage());
+//            $this->bot->sendMessage("112865662", $e->getMessage());
         }
     }
 }

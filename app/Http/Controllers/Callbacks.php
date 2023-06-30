@@ -47,8 +47,8 @@ class Callbacks extends Controller
         try {
             return $this->client->run();
         } catch (Throwable $e) {
-            print_r($e->getMessage());
-            $this->bot->sendMessage("112865662", $e->getMessage() . $e->getLine());
+//            print_r($e->getMessage());
+//            $this->bot->sendMessage("112865662", $e->getMessage() . $e->getLine());
         }
     }
 
