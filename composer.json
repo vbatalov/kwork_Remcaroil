@@ -7,7 +7,7 @@
     "require": {
         "php": "^7.1",
         "telegram-bot/api": "2.3.24"
-    },
+    }
 
     
 }
