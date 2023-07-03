@@ -84,6 +84,8 @@ class RESTApi extends Controller
     // Поля множественные, туда можно пихать массив данных через указание ключа массива
     public function storeLead($cid)
     {
+        $this->checkCIDinContactList($cid);
+
         $user = new User();
         $answer = new Answer();
 

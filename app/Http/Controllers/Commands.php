@@ -42,8 +42,8 @@ class Commands extends Controller
             }
 
             /** Проверка пользователя в БД Битрикс */
-            $RESTApi = new RESTApi();
-            $RESTApi->checkCIDinContactList($cid);
+//            $RESTApi = new RESTApi();
+//            $RESTApi->checkCIDinContactList($cid);
 
             // Нулевые куки на случай повторого запуска бота
             $cookie = new Cookie($cid);
