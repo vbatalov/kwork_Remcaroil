@@ -37,7 +37,6 @@ class Controller extends BaseController
         $page_url2 = "bot";
         $page_url = $page_url1 . $page_url2;
 
-
         try {
 
             if ($this->bot->deleteWebhook()) {
